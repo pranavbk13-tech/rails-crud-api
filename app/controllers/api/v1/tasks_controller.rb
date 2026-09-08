@@ -1,6 +1,7 @@
 module Api
   module V1
     class TasksController < ApplicationController
+      include ApiResponse
       before_action :set_task, only: [ :show, :update, :destroy ]
 
       # GET /api/v1/tasks
@@ -56,18 +57,6 @@ module Api
         ActionController::Parameters.new(payload).permit(:title, :description, :completed)
       rescue JSON::ParserError
         ActionController::Parameters.new
-      end
-
-      def render_success(data, status = :ok, message = nil)
-        response_body = { success: true, data: data }
-        response_body[:message] = message if message.present?
-        render json: response_body, status: status
-      end
-
-      def render_error(errors, status = :bad_request, message = nil)
-        response_body = { success: false, errors: Array(errors) }
-        response_body[:message] = message if message.present?
-        render json: response_body, status: status
       end
     end
   end
