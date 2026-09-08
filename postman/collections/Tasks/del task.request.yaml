@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3000/api/v1/tasks/2
+method: DELETE
+order: 4428577470476904

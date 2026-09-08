@@ -1,0 +1,14 @@
+$kind: http-request
+url: http://localhost:3000/api/v1/tasks/2
+method: PATCH
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |
+    {
+        "title": "Learn Ruby on Rails",
+        "description": "API connected to PostgreSQL.",
+        "completed": false
+    }
+order: 4359103443160413

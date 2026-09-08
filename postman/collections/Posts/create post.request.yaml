@@ -1,0 +1,11 @@
+$kind: http-request
+url: http://localhost:3000/posts
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "title": "post 1 test title",
+        "body": "ruby - post 1"
+    }
+order: 1720705571643685

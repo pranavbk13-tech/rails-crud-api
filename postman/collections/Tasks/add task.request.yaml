@@ -1,0 +1,14 @@
+$kind: http-request
+url: http://localhost:3000/api/v1/tasks
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |
+    {
+        "title": "Exercise",
+        "description": "Doing Exercise.",
+        "completed": true
+    }
+order: 3376713601957421
