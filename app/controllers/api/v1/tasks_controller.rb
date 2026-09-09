@@ -1,63 +1,52 @@
-module Api
-  module V1
-    class TasksController < ApplicationController
-      include ApiResponse
-      before_action :set_task, only: [ :show, :update, :destroy ]
 
-      # GET /api/v1/tasks
-      def index
-        tasks = Task.order(created_at: :desc)
-        render_success(tasks)
-      end
+class Api::V1::TasksController < ApplicationController
+  before_action :set_task, only: [ :show, :update, :destroy ]
 
-      # GET /api/v1/tasks/:id
-      def show
-        render_success(@task)
-      end
+  # GET /api/v1/tasks
+  def index
+    tasks = Task.order(created_at: :desc)
+    render_success(tasks)
+  end
 
-      # POST /api/v1/tasks
-      def create
-        task = Task.new(task_params)
-        if task.save
-          render_success(task, :created, "Task created successfully")
-        else
-          render_error(task.errors.full_messages, :unprocessable_entity)
-        end
-      end
+  # GET /api/v1/tasks/:id
+  def show
+    render_success(@task)
+  end
 
-      # PATCH/PUT /api/v1/tasks/:id
-      def update
-        if @task.update(task_params)
-          render_success(@task, :ok, "Task updated successfully")
-        else
-          render_error(@task.errors.full_messages, :unprocessable_entity)
-        end
-      end
-
-      # DELETE /api/v1/tasks/:id
-      def destroy
-        @task.destroy
-        render_success(nil, :ok, "Task deleted successfully")
-      end
-
-      private
-
-      def set_task
-        @task = Task.find_by(id: params[:id])
-        render_error([ "Task not found" ], :not_found) unless @task
-        nil if performed?
-      end
-
-      def task_params
-        raw_body = request.body.read
-        return ActionController::Parameters.new if raw_body.blank?
-
-        parsed = JSON.parse(raw_body)
-        payload = parsed.is_a?(Hash) ? (parsed["task"] || parsed) : {}
-        ActionController::Parameters.new(payload).permit(:title, :description, :completed)
-      rescue JSON::ParserError
-        ActionController::Parameters.new
-      end
+  # POST /api/v1/tasks
+  def create
+    task = Task.new(task_params)
+    if task.save
+      render_success(task, :created, "Task created successfully")
+    else
+      render_error(task.errors.full_messages, :unprocessable_entity)
     end
+  end
+
+  # PATCH/PUT /api/v1/tasks/:id
+  def update
+    if @task.update(task_params)
+      render_success(@task, :ok, "Task updated successfully")
+    else
+      render_error(@task.errors.full_messages, :unprocessable_entity)
+    end
+  end
+
+  # DELETE /api/v1/tasks/:id
+  def destroy
+    @task.destroy
+    render_success(nil, :ok, "Task deleted successfully")
+  end
+
+  private
+
+  def set_task
+    @task = Task.find_by(id: params[:id])
+    render_error([ "Task not found" ], :not_found) unless @task
+    nil if performed?
+  end
+
+  def task_params
+    params.fetch(:task, params).permit(:title, :description, :completed)
   end
 end
