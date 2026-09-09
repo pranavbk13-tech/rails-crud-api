@@ -43,7 +43,6 @@ class Api::V1::TasksController < ApplicationController
   def set_task
     @task = Task.find_by(id: params[:id])
     render_error([ "Task not found" ], :not_found) unless @task
-    nil if performed?
   end
 
   def task_params
