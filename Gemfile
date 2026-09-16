@@ -5,6 +5,7 @@ gem "rails", "~> 8.1.3", ">= 8.1.3.1"
 
 gem "json", "~> 2.10"
 gem "pagy"
+gem "kaminari"
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
@@ -42,6 +43,7 @@ gem "image_processing", "~> 1.2"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem "amazing_print"
 
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
   gem "bundler-audit", require: false
